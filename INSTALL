@@ -1,0 +1,9 @@
+Building Enviromint
+
+See doc/readme-qt.rst for instructions on building Enviromint QT,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of Enviromint.
+
+See doc/build-*.txt for instructions on building enviromintd,
+the intended-for-services, no-graphical-interface, reference
+implementation of Enviromint.
