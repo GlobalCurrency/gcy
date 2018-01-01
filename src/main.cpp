@@ -2534,7 +2534,7 @@ bool LoadBlockIndex(bool fAllowNew)
 
         const char* pszTimestamp = "Eminem’s Daughter Is 22, And We’re All Frickin’ Old, BuzzFeed 123117";
         CTransaction txNew;
-        txNew.nTime = 1514764801;
+        txNew.nTime = 1458855606;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 0 << CBigNum(42) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
@@ -2544,7 +2544,7 @@ bool LoadBlockIndex(bool fAllowNew)
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1514764801;
+        block.nTime    = 1458855606;
         block.nBits    = bnProofOfWorkLimit.GetCompact();
         block.nNonce   = !fTestNet ? 166149 : 0;
         
