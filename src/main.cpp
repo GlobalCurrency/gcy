@@ -2532,7 +2532,7 @@ bool LoadBlockIndex(bool fAllowNew)
         //    CTxOut(empty)
         //  vMerkleTree: 12630d16a9
 
-        const char* pszTimestamp = "Eminem’s Daughter Is 22, And We’re All Frickin’ Old, BuzzFeed 123117";
+        const char* pszTimestamp = "ny times brussels 032416";
         CTransaction txNew;
         txNew.nTime = 1458855606;
         txNew.vin.resize(1);
