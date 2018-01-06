@@ -1,0 +1,114 @@
+Cross compile enviromint-qt using mxe and mingw on 64-bit Ubuntu 16.04.
+
+Install mxe dependencies:
+sudo apt-get install p7zip-full autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libtool libltdl-dev libssl-dev libxml-parser-perl make openssl patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386
+
+Clone mxe github repo:
+cd /mnt
+git clone https://github.com/mxe/mxe.git
+
+Compile boost:
+cd /mnt/mxe
+make MXE_TARGETS="i686-w64-mingw32.static" boost
+
+Compile qt5:
+make MXE_TARGETS="i686-w64-mingw32.static" qttools
+
+Compile berkeley db:
+cd /mnt
+wget http://download.oracle.com/berkeley-db/db-5.3.28.tar.gz
+tar zxvf db-5.3.28.tar.gz
+cd /mnt/db-5.3.28
+touch compile-db.sh
+chmod ugo+x compile-db.sh
+
+Enter Contents of compile-db.sh using nano or other text editor:
+------------------------------------------------------
+#!/bin/bash
+MXE_PATH=/mnt/mxe
+sed -i "s/WinIoCtl.h/winioctl.h/g" src/dbinc/win_db.h
+mkdir build_mxe
+cd build_mxe
+
+CC=$MXE_PATH/usr/bin/i686-w64-mingw32.static-gcc \
+CXX=$MXE_PATH/usr/bin/i686-w64-mingw32.static-g++ \
+../dist/configure \
+	--disable-replication \
+	--enable-mingw \
+	--enable-cxx \
+	--host x86 \
+	--prefix=$MXE_PATH/usr/i686-w64-mingw32.static
+
+make
+
+make install
+------------------------------------------------------
+
+Compile:
+./compile-db.sh
+
+Compile miniupnpc:
+cd /mnt
+wget http://miniupnp.free.fr/files/miniupnpc-1.6.20120509.tar.gz
+tar zxvf miniupnpc-1.6.20120509.tar.gz
+cd /mnt/miniupnpc-1.6.20120509
+touch compile-m.sh
+chmod ugo+x compile-m.sh
+
+Enter contents of compile-m.sh using nano or other text editor:
+-----------------------------------------------
+#!/bin/bash
+MXE_PATH=/mnt/mxe
+
+CC=$MXE_PATH/usr/bin/i686-w64-mingw32.static-gcc \
+AR=$MXE_PATH/usr/bin/i686-w64-mingw32.static-ar \
+CFLAGS="-DSTATICLIB -I$MXE_PATH/usr/i686-w64-mingw32.static/include" \
+LDFLAGS="-L$MXE_PATH/usr/i686-w64-mingw32.static/lib" \
+make libminiupnpc.a
+
+mkdir $MXE_PATH/usr/i686-w64-mingw32.static/include/miniupnpc
+cp *.h $MXE_PATH/usr/i686-w64-mingw32.static/include/miniupnpc
+cp libminiupnpc.a $MXE_PATH/usr/i686-w64-mingw32.static/lib
+------------------------------------------------------
+
+Compile:
+./compile-m.sh
+
+Add mxe bins to PATH:
+export PATH=/mnt/mxe/usr/bin:$PATH
+
+Download and Compile Enviromint:
+cd /mnt
+git clone https://github.com/pacificao/enviromint.git
+cd /mnt/enviromint
+touch compile-env.sh
+chmod ugo+x compile-env.sh
+
+Enter contents of compile-env.sh using nano or other text editor:
+--------------------------------------------------
+#!/bin/bash
+MXE_INCLUDE_PATH=/mnt/mxe/usr/i686-w64-mingw32.static/include
+MXE_LIB_PATH=/mnt/mxe/usr/i686-w64-mingw32.static/lib
+
+i686-w64-mingw32.static-qmake-qt5 \
+	BOOST_LIB_SUFFIX=-mt \
+	BOOST_THREAD_LIB_SUFFIX=_win32-mt \
+	BOOST_INCLUDE_PATH=$MXE_INCLUDE_PATH/boost \
+	BOOST_LIB_PATH=$MXE_LIB_PATH \
+	OPENSSL_INCLUDE_PATH=$MXE_INCLUDE_PATH/openssl \
+	OPENSSL_LIB_PATH=$MXE_LIB_PATH \
+	BDB_INCLUDE_PATH=$MXE_INCLUDE_PATH \
+	BDB_LIB_PATH=$MXE_LIB_PATH \
+	MINIUPNPC_INCLUDE_PATH=$MXE_INCLUDE_PATH \
+	MINIUPNPC_LIB_PATH=$MXE_LIB_PATH \
+	QMAKE_LRELEASE=/mnt/mxe/usr/i686-w64-mingw32.static/qt5/bin/lrelease Enviromint-qt.pro
+
+make -f Makefile.Release
+---------------------------------------------------------
+
+Compile Enviromint-qt
+./compile-blk.sh
+
+Ensure you have proper permissions or this will fail
+Use sudo chmod 777 -R /mnt before compiling
+Avoid using root or sudo when compiling
