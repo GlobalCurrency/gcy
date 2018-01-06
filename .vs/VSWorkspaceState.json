@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
+    "\\doc",
     "\\src"
   ],
-  "SelectedNode": "\\src\\main.cpp",
+  "SelectedNode": "\\doc\\build-msw.txt",
   "PreviewInSolutionExplorer": false
 }
