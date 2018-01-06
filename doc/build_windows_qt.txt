@@ -112,3 +112,5 @@ Compile Enviromint-qt
 Ensure you have proper permissions or this will fail
 Use sudo chmod 777 -R /mnt before compiling
 Avoid using root or sudo when compiling
+
+Find Enviromint-qt.exe at /mnt/enviromint/release
