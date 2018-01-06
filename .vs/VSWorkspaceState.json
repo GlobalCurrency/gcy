@@ -1,9 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\doc",
-    "\\src"
+    "\\src",
+    "\\src\\qt",
+    "\\src\\qt\\res",
+    "\\src\\qt\\res\\icons"
   ],
-  "SelectedNode": "\\doc\\build-msw.txt",
+  "SelectedNode": "\\Enviromint-qt.pro",
   "PreviewInSolutionExplorer": false
 }
