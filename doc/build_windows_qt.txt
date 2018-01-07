@@ -107,7 +107,7 @@ make -f Makefile.Release
 ---------------------------------------------------------
 
 Compile Enviromint-qt
-./compile-blk.sh
+./compile-env.sh
 
 Ensure you have proper permissions or this will fail
 Use sudo chmod 777 -R /mnt before compiling
