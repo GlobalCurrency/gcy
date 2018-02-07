@@ -1,0 +1,6 @@
+rpcuser=rpc_enviromint
+rpcpassword=somelongpassword
+rpcallowip=127.0.0.1
+rpcport=6592
+listen=1
+server=1
